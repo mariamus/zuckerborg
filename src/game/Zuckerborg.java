@@ -142,9 +142,6 @@ public class Zuckerborg {
 
 	public void zuckerborgEmotionsgui() {
 		Emotes[] emotes = emotions(3);
-//		System.out.println(Arrays.toString(emotionsList()));
-//		System.out.println();
-//		System.out.println(Arrays.toString(emotes));
 		boolean found = false;
 
 		for (int i = 0; i < emotes.length; i++) {
