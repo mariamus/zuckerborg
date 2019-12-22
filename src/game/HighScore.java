@@ -1,7 +1,11 @@
 package game;
 
+import java.util.ArrayList;
+
+
 public class HighScore implements Comparable<HighScore>{
 
+	public static ArrayList<HighScore> scores = new ArrayList<>();
 	public String name;
 	public int score;
 	
@@ -21,6 +25,10 @@ public class HighScore implements Comparable<HighScore>{
 	public int compareTo(HighScore scores) {
 		int compareScore = ((HighScore) scores).getScore();
 		return compareScore - this.score;
+	}
+	
+	public static ArrayList<HighScore> getScores() {
+		return scores;
 	}
 		
 }

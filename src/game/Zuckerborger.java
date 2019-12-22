@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
@@ -55,7 +56,7 @@ public class Zuckerborger {
 		System.out.println();
 		System.out.println("The human is suspicious! \n");
 		System.out.println("Zuckerborg tries to use emotions!");
-		zuckerborgEmotions();
+		//zuckerborgEmotions();
 	}
 	
 	
@@ -68,16 +69,16 @@ public class Zuckerborger {
 	}
 	
 	
-	//Creates a boolean array and posts an emote from the enum if true value is recorded.
-	public boolean[] emotions(int number) {
-		Random emotions = new Random();
-		boolean[] array = new boolean[number];
+	public Emotes[] emotions(int number) {
+		Emotes[] array = new Emotes[number];
 		for (int i = 0; i < array.length; i++) {
-			boolean emotive = emotions.nextBoolean();
+			Emotes emotive = Emotes.values()[new Random().nextInt(Emotes.values().length)];
 			array[i] = emotive;
 		}
 		return array;
 	}
+	
+	
 	
 	/*runs the boolean array method and posts an emote for every true value. 
 	 * Also subtracts a panic point per true value.
@@ -86,31 +87,85 @@ public class Zuckerborger {
 	 * if panic reached the upper limit of the  winlosevariable, the game is lost. (lose())
 	 * if it reaches the lowerlimit, thegame is won. (win())
 	*/
-	public void zuckerborgEmotions() {
-		boolean[] emotes = emotions(7);
-		for (int i = 0; i < emotes.length; i++) {
-			if (emotes[i]) {
-				panic--;
-				numOfEmotes++;
-				System.out.println("Zuckerberg " + Emotion.values()[new Random().nextInt(Emotion.values().length)]);
-				System.out.println("Human's panic level is: " + panic);
-			} else if (!emotes[i]){
-				panic++;
-				System.out.println("You are creeping out the human!");
-				System.out.println("Human's panic level is: " + panic);
+//	public void zuckerborgEmotions() {
+//		boolean[] emotes = emotions(7);
+//		for (int i = 0; i < emotes.length; i++) {
+//			if (emotes[i]) {
+//				panic--;
+//				numOfEmotes++;
+//				System.out.println("Zuckerberg " + Emotion.values()[new Random().nextInt(Emotion.values().length)]);
+//				System.out.println("Human's panic level is: " + panic);
+//			} else if (!emotes[i]){
+//				panic++;
+//				System.out.println("You are creeping out the human!");
+//				System.out.println("Human's panic level is: " + panic);
+//			}
+//
+//		}
+//		if (panic < winlosevariable && panic > -winlosevariable) {
+//			zuckerborgEmotions();
+//		} 
+//		if (panic >= winlosevariable) {
+//			lose();
+//		}
+//		if (panic <= -winlosevariable) {
+//			win();
+//		}
+//
+//	}
+	public Emotes[] emotionsList() {
+		Emotes[] array = new Emotes[6];
+		System.out.println("Your available Emotes:");
+		for (int i = 0; i < array.length; i++) {
+			for (Emotes em : Emotes.values()) {
+				array[i] = em;
+				i++;
 			}
-
+		}
+		return array;
+	}
+	
+	public void zuckerborgEmotionslong() {
+		Emotes[] emotes = emotions(3);
+		Scanner scanner = new Scanner(System.in);
+		System.out.println(Arrays.toString(emotionsList()));
+		System.out.println();
+		System.out.println("Please type your choice.");
+		// delete the following line for final game.
+		System.out.println(Arrays.toString(emotes));
+		String selectedEmote = scanner.nextLine().toLowerCase();
+		boolean found = false;
+		for (int i = 0; i < emotes.length; i++) {
+			if (Arrays.toString(emotes).contains(selectedEmote)) {
+				found = true;
+			} else {
+				found = false;
+			}
+			if (found) {
+				Emotes emotive = Emotes.valueOf(selectedEmote);
+				String insert = emotive.getSentence();
+				System.out.println(insert);
+				yay();
+				break;
+			}
+			if (!found) {
+				System.out.println();
+				Emotes emotive = Emotes.valueOf(selectedEmote);
+				String insert = emotive.getSentence();
+				System.out.println(insert);
+				oops();
+				break;
+			}
 		}
 		if (panic < winlosevariable && panic > -winlosevariable) {
-			zuckerborgEmotions();
-		} 
+			//zuckerborgEmotions();
+		}
 		if (panic >= winlosevariable) {
 			lose();
 		}
 		if (panic <= -winlosevariable) {
 			win();
 		}
-
 	}
 	
 	
@@ -151,6 +206,28 @@ public class Zuckerborger {
 		System.out.println(getHighscoreString());
 		tryAgain();
 	}
+	
+	/*
+	 * Methods to use if the human is calmed or creeped out.
+	 */
+	public void yay() {
+		panic--;
+		numOfEmotes++;
+		System.out.println("The human is calmed.");
+		System.out.println("Human's panic level is: " + panic);
+		System.out.println();
+	}
+
+	public void oops() {
+		panic++;
+		System.out.println();
+		System.out.println("You are creeping out the human!");
+		System.out.println("Human's panic level is: " + panic);
+		System.out.println();
+	}
+
+	
+
 	
 	/* resets panic and numOfEmotes variables.
 	 * Asks use if they would like to play again.

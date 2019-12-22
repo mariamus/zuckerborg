@@ -3,6 +3,8 @@ package game;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,7 +14,7 @@ import java.util.Scanner;
  */
 public class Zuckerborg {
 
-	private static String playerName;
+	public static String playerName;
 	private static int panic;
 	private static int winlosevariable = 5;
 	private static int numOfEmotes;
@@ -21,6 +23,10 @@ public class Zuckerborg {
 
 	public String getPlayerName() {
 		return playerName;
+	}
+	
+	public void setPlayerName(String name) {
+		playerName = name;
 	}
 
 	public int getPanic() {
@@ -41,7 +47,7 @@ public class Zuckerborg {
 
 	// welcome screen
 	public void start() {
-		Scanner scan = new Scanner(System.in);
+		
 		System.out.println();
 		System.out.println("***********************************************************************************");
 		System.out.println("You are ZuckerBorg, a semi-sophisticated lizard robot who has come to conquer earth!");
@@ -50,14 +56,7 @@ public class Zuckerborg {
 		System.out.println("***********************************************************************************");
 		System.out.println();
 		System.out.println("Would you like to play? Please type yes or no.");
-		String goOn = scan.nextLine();
-		if (goOn.equalsIgnoreCase("no")) {
-			scan.close();
-		}
-		if (goOn.equalsIgnoreCase("yes")) {
-			System.out.println("Welcome! Please enter your name!");
-			setPlayer();
-		}
+
 	}
 
 	// starts the game.
@@ -65,7 +64,7 @@ public class Zuckerborg {
 		System.out.println();
 		System.out.println(playerName + ". The human is suspicious! \n");
 		System.out.println("Hurry! Pick an emote!");
-		zuckerborgEmotions();
+		zuckerborgEmotionsgui();
 	}
 
 	// Uses input to record Player name for the high score list.
@@ -80,7 +79,13 @@ public class Zuckerborg {
 		Emotes[] array = new Emotes[number];
 		for (int i = 0; i < array.length; i++) {
 			Emotes emotive = Emotes.values()[new Random().nextInt(Emotes.values().length)];
+			List<Emotes> list = Arrays.asList(array);
+			if (!list.toString().contains(emotive.toString())) {
 			array[i] = emotive;
+			}
+			else {
+				i--;
+			}
 		}
 		return array;
 	}
@@ -97,84 +102,48 @@ public class Zuckerborg {
 		return array;
 	}
 
-	public void zuckerborgEmotions() {
-		Emotes[] emotes = emotions(3);
-		Scanner scanner = new Scanner(System.in);
-		System.out.println(Arrays.toString(emotionsList()));
-		System.out.println();
-		System.out.println("Please type your choice.");
-		// delete the following line for final game.
-		System.out.println(Arrays.toString(emotes));
-		String selectedEmote = scanner.nextLine().toLowerCase();
-		boolean found = false;
-		for (int i = 0; i < emotes.length; i++) {
-			if (Arrays.toString(emotes).contains(selectedEmote)) {
-				found = true;
-			} else {
-				found = false;
-			}
-			if (found) {
-				Emotes emotive = Emotes.valueOf(selectedEmote);
-				String insert = emotive.getSentence();
-				System.out.println(insert);
-				yay();
-				break;
-			}
-			if (!found) {
-				System.out.println();
-				Emotes emotive = Emotes.valueOf(selectedEmote);
-				String insert = emotive.getSentence();
-				System.out.println(insert);
-				oops();
-				break;
-			}
-		}
-		if (panic < winlosevariable && panic > -winlosevariable) {
-			zuckerborgEmotions();
-		}
-		if (panic >= winlosevariable) {
-			lose();
-		}
-		if (panic <= -winlosevariable) {
-			win();
-		}
-	}
-
 	public void zuckerborgEmotionsgui() {
 		Emotes[] emotes = emotions(3);
 		boolean found = false;
+		System.out.println(Arrays.toString(emotes));
+		while (selectedEmote != null) {
+			for (int i = 0; i < emotes.length; i++) {
+				if (Arrays.toString(emotes).contains(selectedEmote)) {
+					found = true;
+				} else {
+					found = false;
+				}
+				if (found) {
+					Emotes emotive = Emotes.valueOf(selectedEmote);
+					String insert = emotive.getSentence();
+					System.out.println(insert);
+					selectedEmote = null;
+					yay();
+					break;
+				}
+				if (!found) {
+					System.out.println();
+					Emotes emotive = Emotes.valueOf(selectedEmote);
+					String insert = emotive.getSentence();
+					System.out.println(insert);
+					selectedEmote = null;
+					oops();
+					break;
+				}
+			}
 
-		for (int i = 0; i < emotes.length; i++) {
-			if (Arrays.toString(emotes).contains(selectedEmote)) {
-				found = true;
-			} else {
-				found = false;
+			if (panic < winlosevariable && panic > -winlosevariable) {
+				selectedEmote = null;
+				//zuckerborgEmotionsgui();
 			}
-			if (found) {
-				Emotes emotive = Emotes.valueOf(selectedEmote);
-				String insert = emotive.getSentence();
-				System.out.println(insert);
-				yay();
-				break;
+			if (panic >= winlosevariable) {
+				selectedEmote = null;
+				lose();
 			}
-			if (!found) {
-				System.out.println();
-				Emotes emotive = Emotes.valueOf(selectedEmote);
-				String insert = emotive.getSentence();
-				System.out.println(insert);
-				oops();
-				break;
+			if (panic <= -winlosevariable) {
+				selectedEmote = null;
+				win();
 			}
-		}
-
-		if (panic < winlosevariable && panic > -winlosevariable) {
-			zuckerborgEmotions();
-		}
-		if (panic >= winlosevariable) {
-			lose();
-		}
-		if (panic <= -winlosevariable) {
-			win();
 		}
 	}
 
@@ -190,7 +159,8 @@ public class Zuckerborg {
 	}
 
 	public void oops() {
-		panic++;
+		//for testing. when done change to ++
+		panic--;
 		System.out.println();
 		System.out.println("You are creeping out the human!");
 		System.out.println("Human's panic level is: " + panic);
@@ -205,7 +175,7 @@ public class Zuckerborg {
 		System.out.println("***********************************************************************************");
 		System.out.println("You have lost! The Human alerted authorities!");
 		System.out.println("You have been taken away to be studied by the authorities.");
-		System.out.println("You managed " + getNumOfEmotes() + " emotes.");
+		System.out.println("You managed " + getNumOfEmotes() + " successful emotes.");
 		System.out.println("The Human's panic level reached: " + getPanic());
 		System.out.println("***********************************************************************************");
 		System.out.println();
@@ -227,7 +197,8 @@ public class Zuckerborg {
 		System.out.println("***********************************************************************************");
 		System.out.println();
 		setHighScore();
-
+		System.out.println(getPlayerName());
+		System.out.println(getHighscoreString());
 	}
 
 	/*
@@ -237,38 +208,12 @@ public class Zuckerborg {
 	public void setHighScore() {
 		highScore.add(new HighScore(playerName, numOfEmotes));
 		Collections.sort(highScore);
-		System.out.println(getHighscoreString());
 		tryAgain();
 	}
 
-	/*
-	 * resets panic and numOfEmotes variables. Asks use if they would like to play
-	 * again. If no, game bids you farewell and closes. if yes, run method is
-	 * started. if anything else, asks for clarification.
-	 */
 	public void tryAgain() {
 		panic = 0;
 		numOfEmotes = 0;
-		Scanner scan = new Scanner(System.in);
-		System.out.println("Would you like to try again? Yes/No?");
-		String tryagain = scan.nextLine();
-		if (tryagain.equalsIgnoreCase("no")) {
-			scan.close();
-			System.out.println("Goodbye");
-			System.exit(0);
-		}
-		if (tryagain.equalsIgnoreCase("yes")) {
-			run();
-		} else if (!tryagain.equalsIgnoreCase("yes") || !tryagain.equalsIgnoreCase("no")) {
-			System.out.println();
-			// TODO: Get this to not post the enum, but just the string associated in the
-			// enum class.
-			TryAgainComments sentence = TryAgainComments.values()[new Random()
-					.nextInt(TryAgainComments.values().length)];
-			String trycomment = sentence.getSentence();
-			System.out.println(trycomment + "\n");
-			tryAgain();
-		}
 	}
 
 	/*
