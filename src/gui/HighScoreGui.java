@@ -2,7 +2,6 @@ package gui;
 
 
 import game.HighScore;
-import game.Zuckerborg;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,8 +12,7 @@ import javafx.scene.layout.GridPane;
 
 
 public class HighScoreGui extends GridPane {
-	Zuckerborg z;
-	ObservableList<HighScore> names = FXCollections.observableArrayList(z.getHighScore());
+	ObservableList<HighScore> names = FXCollections.observableArrayList(HighScore.getScores());
 	TableView<HighScore> highscore;
 		
 	public HighScoreGui() {
