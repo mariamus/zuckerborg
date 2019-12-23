@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Scanner;
 
+import storage.Storage;
+
 /**
  * @author Elisabeth
  *
@@ -19,7 +21,7 @@ public class Zuckerborg {
 	private static int winlosevariable = 5;
 	private static int numOfEmotes;
 	private static String selectedEmote;
-	private static ArrayList<HighScore> highScore = new ArrayList<>();
+	
 
 	public String getPlayerName() {
 		return playerName;
@@ -35,10 +37,6 @@ public class Zuckerborg {
 
 	public int getNumOfEmotes() {
 		return numOfEmotes;
-	}
-
-	public ArrayList<HighScore> getHighScore() {
-		return highScore;
 	}
 
 	public void setSelectedEmote(String selectedEmote) {
@@ -198,7 +196,7 @@ public class Zuckerborg {
 		System.out.println();
 		setHighScore();
 		System.out.println(getPlayerName());
-		System.out.println(getHighscoreString());
+		
 	}
 
 	/*
@@ -206,8 +204,7 @@ public class Zuckerborg {
 	 * method.
 	 */
 	public void setHighScore() {
-		highScore.add(new HighScore(playerName, numOfEmotes));
-		Collections.sort(highScore);
+		Storage.getInstance().addHighScore(new HighScore(playerName, numOfEmotes));
 		tryAgain();
 	}
 
@@ -216,27 +213,27 @@ public class Zuckerborg {
 		numOfEmotes = 0;
 	}
 
-	/*
-	 * String builder to show high score list.
-	 */
-	public String getHighscoreString() {
-		StringBuilder bld = new StringBuilder();
-		final int topThree = 3;
-		highScore = getHighScore();
-
-		int i = 0;
-		int x = highScore.size();
-		if (x > topThree) {
-			x = topThree;
-		}
-		while (i < x) {
-			bld.append((i + 1) + ". " + highScore.get(i).getName() + " - " + highScore.get(i).getScore() + "\n");
-			i++;
-		}
-		System.out.println("***********************************************************************************\n");
-		String str = bld.toString();
-		return str + "\n***********************************************************************************\n";
-
-	}
+//	/*
+//	 * String builder to show high score list.
+//	 */
+//	public String getHighscoreString() {
+//		StringBuilder bld = new StringBuilder();
+//		final int topThree = 3;
+//		highScore = getHighScore();
+//
+//		int i = 0;
+//		int x = highScore.size();
+//		if (x > topThree) {
+//			x = topThree;
+//		}
+//		while (i < x) {
+//			bld.append((i + 1) + ". " + highScore.get(i).getName() + " - " + highScore.get(i).getScore() + "\n");
+//			i++;
+//		}
+//		System.out.println("***********************************************************************************\n");
+//		String str = bld.toString();
+//		return str + "\n***********************************************************************************\n";
+//
+//	}
 
 }

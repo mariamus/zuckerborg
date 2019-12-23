@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import storage.Storage;
 
 
 public class HighScoreGui extends GridPane {
@@ -39,7 +40,7 @@ public class HighScoreGui extends GridPane {
 
 		// create tableview and setup style.
 		TableView highScoreList = new TableView();
-		highScoreList.setItems(names);
+		highScoreList.setItems(Storage.getInstance().getNames());
 		highScoreList.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		
 		highScoreList.getSortOrder().add(scoreColumn);
