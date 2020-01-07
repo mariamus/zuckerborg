@@ -9,6 +9,10 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.Mnemonic;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -28,8 +32,11 @@ public class MainApp extends Application {
 		BorderPane pane = new BorderPane();
 		this.initContent(pane);
 		Scene scene = new Scene(pane);
+
+		
 		stage.setScene(scene);
 		stage.show();
+		stage.setResizable(false);
 	}
 
 	// -------------------------------------------------------------------------
@@ -56,7 +63,7 @@ public class MainApp extends Application {
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		Tab tabGame = new Tab("Game");
 		tabPane.getTabs().add(tabGame);
-		
+
 		Tab tabHighScore = new Tab("High Score");
 		tabPane.getTabs().add(tabHighScore);
 		

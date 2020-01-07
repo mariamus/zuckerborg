@@ -158,7 +158,7 @@ public class Zuckerborg {
 
 	public void oops() {
 		//for testing. when done change to ++
-		panic--;
+		panic++;
 		System.out.println();
 		System.out.println("You are creeping out the human!");
 		System.out.println("Human's panic level is: " + panic);

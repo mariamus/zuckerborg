@@ -1,9 +1,8 @@
 package gui;
 
-import java.util.Optional;
+import javax.swing.JTabbedPane;
 
 import game.Emotes;
-import game.HighScore;
 import game.Zuckerborg;
 
 import javafx.geometry.Insets;
@@ -14,6 +13,10 @@ import javafx.scene.control.TextField;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.Mnemonic;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -38,7 +41,7 @@ public class ZuckGui extends GridPane {
 	
 	
 	public ZuckGui() {
-
+		
 		int fitheight = 400;
 		borg.setFitHeight(fitheight);
 		borg.setPreserveRatio(true);
@@ -64,6 +67,9 @@ public class ZuckGui extends GridPane {
 		this.add(buttons, 0, 2, 2, 1);
 		
 		smile.setText("Smile");
+		KeyCombination kc = new KeyCodeCombination(KeyCode.DIGIT1);
+		Mnemonic mn = new Mnemonic(smile, kc);
+		
 		cry.setText("Cry");
 		wink.setText("Wink");
 		grin.setText("Grin");
